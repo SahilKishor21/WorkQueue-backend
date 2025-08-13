@@ -78,6 +78,14 @@ app.use('/api/admins', adminRoutes);
 app.use('/api/heads', headRoutes);
 app.use('/api/assignments', assignmentRoutes);
 
+app.get('/', (req, res) => {
+    res.json({ 
+        message: 'WorkQueue Backend API is running!',
+        status: 'success',
+        version: '1.0.0'
+    });
+});
+
 app.set('io', io); // with this we can use app.get('io') to access it in other files
 
 // Start Server
