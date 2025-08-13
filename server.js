@@ -86,6 +86,14 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/', (req, res) => {
+    res.json({ message: 'Backend is running successfully!' });
+});
+
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
 app.set('io', io); // with this we can use app.get('io') to access it in other files
 
 // Start Server
