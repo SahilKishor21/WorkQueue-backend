@@ -39,4 +39,6 @@ router.get('/admin/all', auth(['Admin', 'Head']), assignmentController.getAllAdm
 // Get admin assignments by label (Admin and Head can view)
 router.get('/admin/label/:label', auth(['Admin', 'Head']), assignmentController.getAdminAssignmentsByLabel);
 
+
+
 module.exports = router;

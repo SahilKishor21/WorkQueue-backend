@@ -85,4 +85,36 @@ router.post('/:assignmentId/appeal', (req, res, next) => {
 }, assignmentController.submitAppeal);
 router.get('/debug/labels', auth('User'), userController.debugLabels);
 
+router.get('/assignments/:id/download', authenticateToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Find the assignment
+        const assignment = await Assignment.findById(id);
+        if (!assignment) {
+            return res.status(404).json({ message: 'Assignment not found' });
+        }
+
+        // Check if user has permission to download (optional security)
+        if (assignment.userId.toString() !== req.user.id && req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Access denied' });
+        }
+
+        // Extract filename from the title or use a default
+        const fileName = `${assignment.title.replace(/[^a-zA-Z0-9.-]/g, '_')}.pdf`;
+        
+        // Set headers to force download
+        res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+        res.setHeader('Content-Type', 'application/octet-stream');
+        res.setHeader('Cache-Control', 'no-cache');
+        
+        // Redirect to the Cloudinary URL
+        res.redirect(assignment.filePath);
+        
+    } catch (error) {
+        console.error('Download error:', error);
+        res.status(500).json({ message: 'Download failed' });
+    }
+});
+
 module.exports = router;
