@@ -85,7 +85,7 @@ router.post('/:assignmentId/appeal', (req, res, next) => {
 }, assignmentController.submitAppeal);
 router.get('/debug/labels', auth('User'), userController.debugLabels);
 
-router.get('/assignments/:id/download', authenticateToken, async (req, res) => {
+router.get('/assignments/:id/download', auth(''), async (req, res) => {
     try {
         const { id } = req.params;
         
