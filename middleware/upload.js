@@ -8,7 +8,7 @@ const storage = new CloudinaryStorage({
         const folder = req.baseUrl?.includes('/admins') ? 'admin-assignments' : 'user-assignments';
         
         // Remove extension from filename to avoid double extensions
-        const fileNameWithoutExt = file.originalname.replace(/\.[^/.]+$/, "");
+      const fileNameWithoutExt = file.originalname.replace(/\.[^.]*$/, '');
         const cleanFileName = fileNameWithoutExt.replace(/\s+/g, '_');
         const publicId = `${Date.now()}-${cleanFileName}`;
         
